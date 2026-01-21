@@ -4,16 +4,17 @@ WITH    tb_transacoes AS (
             idCliente,
             qtdePontos,
             datetime(substr(DtCriacao, 1, 19)) AS dtCriacao,
-            julianday('now') - julianday(DtCriacao) AS dtDiff,
+            julianday('{date}') - julianday(DtCriacao) AS dtDiff,
             CAST (strftime('%H', DtCriacao) AS INTEGER) AS dtHora
 
     FROM transacoes
+    WITH DtCriacao < '{date}'
 ),
 
         tb_cliente AS (
     SELECT  idCliente,
             datetime(DtCriacao) AS DtCriacao,
-            CAST (julianday('now') - julianday(DtCriacao) AS INT) AS idadeBase
+            CAST (julianday('{date}') - julianday(DtCriacao) AS INT) AS idadeBase
     FROM clientes
 ),
 
